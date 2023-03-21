@@ -8,6 +8,39 @@ class ProductManager {
 		return this.products;
 	}
 
+	validateProduct(newProduct) {
+		const productKeys = [
+			"title",
+			"description",
+			"price",
+			"thumbnail",
+			"code",
+			"stock",
+		];
+
+		let validationResult = true;
+
+		if (!newProduct) {
+			//throw new Error("Error, por favor agregue un producto);
+			console.error("Error, por favor agregue un producto");
+			return false;
+		}
+
+		if (this.products.some((product) => product.code === newProduct.code)) {
+			console.error("El código ya existe");
+			return false;
+		}
+
+		for (let key in newProduct) {
+			if (!newProduct[key]) {
+				console.error(`El dato ${key} es requerido`);
+				validationResult = false;
+			}
+		}
+
+		return validationResult;
+	}
+
 	addProduct = (title, description, price, thumbnail, code, stock) => {
 		const newProduct = {
 			title,
@@ -17,22 +50,12 @@ class ProductManager {
 			code,
 			stock,
 		};
-		if (
-			!this.products.find((oldProduct) => oldProduct.code === newProduct.code)
-		) {
-			if (Object.values(newProduct).every((value) => value !== undefined)) {
-				if (this.products.length === 0) {
-					newProduct.id = 1;
-				} else {
-					newProduct.id = this.products[this.products.length - 1].id + 1;
-				}
-				this.products.push(newProduct);
-				return console.log("-- Producto agregado correctamente");
-			} else {
-				return console.log("-- Uno de los campos es invalido o esta vacio");
-			}
-		} else {
-			return console.log("-- Ya hay un producto con codigo repetido");
+
+		const validationResult = this.validateProduct(newProduct);
+
+		if (validationResult) {
+			newProduct.id = this.products === 0 ? 1 : this.products.length + 1;
+			this.products.push(newProduct);
 		}
 	};
 
@@ -50,7 +73,8 @@ productManager.addProduct(
 	"esto es una descripcion",
 	1234,
 	"sin foto",
-	"abc123"
+	"abc123",
+	3
 );
 productManager.addProduct(
 	"producto2",
@@ -85,7 +109,7 @@ productManager.addProduct(
 );
 
 console.log(productManager.getProducts());
-console.log(
-	"======================================================================="
-);
+// console.log(
+// 	"======================================================================="
+// );
 console.log("getProductByID", productManager.getProductById(3));
