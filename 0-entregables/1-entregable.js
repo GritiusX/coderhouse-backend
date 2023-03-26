@@ -73,43 +73,42 @@ productManager.addProduct(
 	"esto es una descripcion",
 	1234,
 	"sin foto",
-	"abc123",
-	3
+	"abc123"
 );
-productManager.addProduct(
-	"producto2",
-	"esto es una descripcion",
-	1234,
-	"sin foto",
-	"abc123",
-	1
-);
-productManager.addProduct(
-	"producto3",
-	"esto es una descripcion",
-	1234,
-	"sin foto",
-	"abc123",
-	2
-);
-productManager.addProduct(
-	"producto4",
-	"esto es una descripcion",
-	1234,
-	"sin foto",
-	"abc123456",
-	3
-);
-productManager.addProduct(
-	"producto5",
-	"esto es una descripcion",
-	1234,
-	"sin foto",
-	"abc12456"
-);
+// productManager.addProduct(
+// 	"producto2",
+// 	"esto es una descripcion",
+// 	1234,
+// 	"sin foto",
+// 	"abc123",
+// 	1
+// );
+// productManager.addProduct(
+// 	"producto3",
+// 	"esto es una descripcion",
+// 	1234,
+// 	"sin foto",
+// 	"abc123",
+// 	2
+// );
+// productManager.addProduct(
+// 	"producto4",
+// 	"esto es una descripcion",
+// 	1234,
+// 	"sin foto",
+// 	"abc123456",
+// 	3
+// );
+// productManager.addProduct(
+// 	"producto5",
+// 	"esto es una descripcion",
+// 	1234,
+// 	"sin foto",
+// 	"abc12456"
+// );
 
-console.log(productManager.getProducts());
+//console.log(productManager.getProducts());
 // console.log(
 // 	"======================================================================="
 // );
-console.log("getProductByID", productManager.getProductById(3));
+//console.log("getProductByID", productManager.getProductById(3));
