@@ -23,12 +23,14 @@ app.get("/products", async (req, res) => {
 
 app.get("/products/:pId", async (req, res) => {
 	try {
-		let { pId } = req.params;
+		const { pId } = req.params;
 		const productById = await productManager.getProductById(parseInt(pId));
 		const productsArray = await productManager.getProducts();
 
 		if (!pId || pId > productsArray.length) {
-			res.send(productsArray);
+			return res
+				.status(404)
+				.send({ error: `El producto con id ${pId} no existe` });
 		}
 
 		return res.send({ productById });
@@ -42,3 +44,21 @@ app.get("/products/:pId", async (req, res) => {
 app.listen(8080, () => {
 	console.log("Escuchando el puerto 8080");
 });
+
+// app.get("/products/:pId", async (req, res) => {
+// 	try {
+// 		let { pId } = req.params;
+// 		const productById = await productManager.getProductById(parseInt(pId));
+// 		const productsArray = await productManager.getProducts();
+
+// 		if (!pId || pId > productsArray.length) {
+// 			throw new Error(`El producto con id ${pId} no existe`);
+// 		}
+
+// 		return res.send({ productById });
+// 	} catch (error) {
+// 		res
+// 			.status(404)
+// 			.send(`APP: No se pudo obtener el producto por Id: ${error.message}`);
+// 	}
+// });
