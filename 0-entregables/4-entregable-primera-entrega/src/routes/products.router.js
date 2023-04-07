@@ -39,17 +39,27 @@ router.get("/:pId", async (req, res) => {
 	}
 });
 
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
 	try {
 		const body = req.body;
-		const productAdded = productManager.addProduct(body);
+		const productAdded = await productManager.addProduct(body);
 		return res.status(200).send({
 			status: "success",
-			message: "aqui te tengo tu cariñito",
-			productAdded,
+			payload: { productAdded },
 		});
 	} catch (error) {
-		console.error(`APP: error en el cariñito`);
+		console.error(`APP: error al agregar el producto`);
+	}
+});
+
+router.put("/:pId", async (req, res) => {
+	try {
+		const { pId } = req.params;
+		const body = req.body;
+		//const productUpdated = await productManager.updateProduct(pId, body);
+		return res.status(200).send({ status: "success", payload: { pId, body } });
+	} catch (error) {
+		console.error(`APP: error al modificar el producto`);
 	}
 });
 

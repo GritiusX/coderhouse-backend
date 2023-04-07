@@ -1,4 +1,4 @@
-.form {
+.form-post {
 	display: flex;
 	flex-direction: column;
 	max-width: 800px;
@@ -6,4 +6,20 @@
 	align-items: center;
 	row-gap: 10px;
 	margin: 3vh 10vh;
+	padding: 15px 0;
+	background: #444444;
+	color: white;
+}
+
+.form-put {
+	display: flex;
+	flex-direction: column;
+	max-width: 800px;
+	justify-content: center;
+	align-items: center;
+	row-gap: 10px;
+	margin: 3vh 10vh;
+	padding: 15px 0;
+	background: #4b2626;
+	color: white;
 }
