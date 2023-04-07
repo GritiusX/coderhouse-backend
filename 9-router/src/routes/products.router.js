@@ -19,3 +19,5 @@ router.post("/", async (req, res) => {
 });
 
 module.exports = router;
+//npm i multer
+// npm i cookie-parser

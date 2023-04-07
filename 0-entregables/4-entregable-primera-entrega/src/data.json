@@ -99,21 +99,14 @@
 		"id": 11
 	},
 	{
-		"title": "asd324",
-		"description": "asd",
-		"price": "123",
-		"thumbnail": "432",
-		"code": "345adsasd",
-		"stock": "dsfads",
+		"title": "dsf",
+		"description": "sdf",
+		"code": "fsd324",
+		"price": "324",
+		"status": "on",
+		"stock": "432",
+		"category": "234",
+		"thumbnails": "fdg",
 		"id": 12
-	},
-	{
-		"title": "asd",
-		"description": "asd",
-		"price": "213",
-		"thumbnail": "asd",
-		"code": "132",
-		"stock": "zxc",
-		"id": 13
 	}
 ]

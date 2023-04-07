@@ -3,7 +3,7 @@ const fs = require("fs");
 class ProductManager {
 	constructor(path) {
 		this.products = [];
-		this.path = path || "./data-3.json";
+		this.path = path || "./src/data.json";
 	}
 
 	async getProducts() {
@@ -21,10 +21,12 @@ class ProductManager {
 		const productKeys = [
 			"title",
 			"description",
-			"price",
-			"thumbnail",
 			"code",
+			"price",
+			"status",
 			"stock",
+			"category",
+			"thumbnails",
 		];
 
 		let validationResult = true;
@@ -33,15 +35,10 @@ class ProductManager {
 
 		Object.values(newProduct).forEach((value) => {
 			if (value.trim() === "" || value === 0) {
-				console.error("Error, por favor agregue un producto");
+				console.error("Error, por favor agregue un producto completo");
 				return (validationResult = false);
 			}
 		});
-		// if (Object.keys(newProduct).length === 0) {
-		// 	//throw new Error("Error, por favor agregue un producto);
-		// 	console.error("Error, por favor agregue un producto");
-		// 	return false;
-		// }
 
 		if (this.products.some((product) => product.code === newProduct.code)) {
 			console.error("El código ya existe");
