@@ -3,14 +3,13 @@ const fs = require("fs");
 class ProductManager {
 	constructor(path) {
 		this.products = [];
-		this.path = path || "./src/data.json";
+		this.path = path || "./src/products.json";
 	}
 
 	async getProducts() {
 		try {
 			const data = await fs.promises.readFile(this.path, "utf-8");
 			this.products = JSON.parse(data);
-			console.log(this.products);
 			return this.products;
 		} catch (error) {
 			console.error(`No se pudo obtener los productos: ${error.message}`);
@@ -33,12 +32,21 @@ class ProductManager {
 		const data = await fs.promises.readFile(this.path, "utf-8");
 		this.products = JSON.parse(data);
 
-		Object.values(newProduct).forEach((value) => {
-			if (value.trim() === "" || value === 0) {
-				console.error("Error, por favor agregue un producto completo");
-				return (validationResult = false);
+		Object.keys(newProduct).forEach((key) => {
+			if (key !== "thumbnails") {
+				if (newProduct[key].trim() === "" || newProduct[key] === 0) {
+					console.error("Error, por favor agregue un producto completo");
+					return (validationResult = false);
+				}
 			}
 		});
+
+		// Object.values(newProduct).forEach((value) => {
+		// 	if (value.trim() === "" || value === 0) {
+		// 		console.error("Error, por favor agregue un producto completo");
+		// 		return (validationResult = false);
+		// 	}
+		// });
 
 		if (this.products.some((product) => product.code === newProduct.code)) {
 			console.error("El código ya existe");
@@ -47,7 +55,7 @@ class ProductManager {
 
 		for (let key in productKeys) {
 			if (Object.keys(newProduct)[key] !== productKeys[key]) {
-				console.log(`El dato ${productKeys[key]} es requerido`);
+				console.error(`El dato ${productKeys[key]} es requerido`);
 				return false;
 			}
 		}
@@ -59,9 +67,11 @@ class ProductManager {
 		let validationResult = true;
 		const data = await fs.promises.readFile(this.path, "utf-8");
 		this.products = JSON.parse(data);
-
-		if (productId === 0 || productId > this.products.length) {
-			console.log("Producto no encontrado");
+		if (
+			parseInt(productId) === 0 ||
+			parseInt(productId) > this.products.length
+		) {
+			console.error("Producto no encontrado");
 			return false;
 		}
 		return validationResult;
@@ -71,7 +81,6 @@ class ProductManager {
 		try {
 			const newProduct = { ...product };
 			const validationResult = await this.validateProduct(newProduct);
-			console.log(validationResult);
 			const productsArray = await this.getProducts();
 
 			if (validationResult) {
@@ -85,6 +94,7 @@ class ProductManager {
 					JSON.stringify(productsArray),
 					"utf-8"
 				);
+				return newProduct;
 			}
 		} catch (error) {
 			console.error(`No se pudo agregar el producto: ${error.message}`);
@@ -102,7 +112,6 @@ class ProductManager {
 					(product) => product.id === productId
 				);
 
-				console.log(filteredProduct);
 				return filteredProduct;
 			}
 		} catch (error) {
@@ -112,23 +121,23 @@ class ProductManager {
 
 	async updateProduct(productId, updatableProduct) {
 		try {
-			const validationResult = this.validateProductId(productId);
+			const validationResult = await this.validateProductId(productId);
 			if (validationResult) {
 				const data = await fs.promises.readFile(this.path, "utf-8");
 				this.products = JSON.parse(data);
 
-				const product = this.products.find((p) => p.id === productId);
+				const product = this.products.find((p) => p.id === parseInt(productId));
 				const newProduct = { ...product, ...updatableProduct };
-
 				const updatedArray = this.products.map((product) =>
 					product.id === newProduct.id ? (product = newProduct) : product
 				);
 
-				return await fs.promises.writeFile(
+				await fs.promises.writeFile(
 					this.path,
 					JSON.stringify(updatedArray),
 					"utf-8"
 				);
+				return updatedArray;
 			}
 		} catch (error) {
 			return console.error(
@@ -139,19 +148,22 @@ class ProductManager {
 
 	async deleteProduct(productId) {
 		try {
-			const validationResult = await this.validateProductId(productId);
+			const validationResult = await this.validateProductId(
+				parseInt(productId)
+			);
 			if (validationResult) {
 				const data = await fs.promises.readFile(this.path, "utf-8");
 				this.products = JSON.parse(data);
 
 				const newArray = this.products.filter(
-					(product) => product.id !== productId
+					(product) => product.id !== parseInt(productId)
 				);
-				return await fs.promises.writeFile(
+				await fs.promises.writeFile(
 					this.path,
 					JSON.stringify(newArray),
 					"utf-8"
 				);
+				return newArray;
 			}
 		} catch (error) {
 			return console.error(
@@ -161,16 +173,20 @@ class ProductManager {
 	}
 }
 module.exports = ProductManager;
-// const productManager = new ProductManager();
+/* const productManager = new ProductManager("./data.json");
 
-// const product1 = {
-// 	title: "",
-// 	description: "",
-// 	price: "",
-// 	thumbnail: "",
-// 	code: "",
-// 	stock: "",
-// };
+const product1 = {
+	title: "afdggfsd",
+	description: "asyrt67d",
+	code: "5zxc43",
+	price: "123",
+	status: "on",
+	stock: "132",
+	category: "453",
+	thumbnails: "",
+};
+productManager.addProduct(product1); */
+
 // productManager.addProduct(product1);
 // const product2 = {
 // 	title: "producto 2",
@@ -200,7 +216,6 @@ module.exports = ProductManager;
 // productManager.addProduct(product1);
 // productManager.addProduct(product2);
 // productManager.addProduct(product3);
-//console.log("PRODUCTS", productManager.products);
 //productManager.getProducts();
 //productManager.getProductById(2);
 // productManager.getProductById(43);

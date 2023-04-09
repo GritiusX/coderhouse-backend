@@ -10,7 +10,6 @@ class ProductManager {
 		try {
 			const data = await fs.promises.readFile(this.path, "utf-8");
 			this.products = JSON.parse(data);
-			console.log(this.products);
 			return this.products;
 		} catch (error) {
 			console.error(`No se pudo obtener los productos: ${error.message}`);

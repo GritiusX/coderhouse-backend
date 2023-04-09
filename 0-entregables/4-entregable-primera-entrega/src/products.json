@@ -1,14 +1,5 @@
 [
 	{
-		"title": "producto 1",
-		"description": "DESCRIPCION 1",
-		"price": 1234,
-		"thumbnail": "sin foto",
-		"code": "abc123",
-		"stock": 1,
-		"id": 1
-	},
-	{
 		"title": "producto 2",
 		"description": "DESCRIPCION 2",
 		"price": 4321,
@@ -130,5 +121,16 @@
 		"category": "453",
 		"thumbnails": "354",
 		"id": 14
+	},
+	{
+		"title": "asdsad432123123",
+		"description": "asd",
+		"code": "911",
+		"price": "45",
+		"status": "on",
+		"stock": "342",
+		"category": "hfgh",
+		"thumbnails": "",
+		"id": 15
 	}
 ]

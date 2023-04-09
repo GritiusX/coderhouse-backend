@@ -31,7 +31,7 @@ router.get("/:pId", async (req, res) => {
 				.send({ error: `El producto con id ${pId} no existe` });
 		}
 
-		return res.send({ productById });
+		return res.send({ message: "product obtained successfully", productById });
 	} catch (error) {
 		console.error(
 			`APP: No se pudo obtener el producto por Id: ${error.message}`
@@ -44,8 +44,9 @@ router.post("/", async (req, res) => {
 		const body = req.body;
 		const productAdded = await productManager.addProduct(body);
 		return res.status(200).send({
-			status: "success",
+			status: 200,
 			payload: { productAdded },
+			message: "product added successfully",
 		});
 	} catch (error) {
 		console.error(`APP: error al agregar el producto`);
@@ -56,10 +57,28 @@ router.put("/:pId", async (req, res) => {
 	try {
 		const { pId } = req.params;
 		const body = req.body;
-		//const productUpdated = await productManager.updateProduct(pId, body);
-		return res.status(200).send({ status: "success", payload: { pId, body } });
+		const productById = await productManager.updateProduct(pId, body);
+
+		return res.status(200).send({
+			status: "success",
+			payload: { productById },
+			message: "product updated successfully",
+		});
 	} catch (error) {
 		console.error(`APP: error al modificar el producto`);
+	}
+});
+router.delete("/:pId", async (req, res) => {
+	try {
+		const { pId } = req.params;
+		const productById = await productManager.deleteProduct(pId);
+		return res.status(200).send({
+			status: "success",
+			payload: { productById },
+			message: "product deleted successfully",
+		});
+	} catch (error) {
+		console.error(`APP: error al eliminar el producto`);
 	}
 });
 
