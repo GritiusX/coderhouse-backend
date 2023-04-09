@@ -5,7 +5,9 @@
 			{ "product": 1, "quantity": 0 },
 			{ "product": 2, "quantity": 2 },
 			{ "product": 4, "quantity": 1 },
-			{ "product": 22, "quantity": 1 }
+			{ "product": 22, "quantity": 2 },
+			{ "product": 42, "quantity": 2 },
+			{ "product": 3, "quantity": 1 }
 		]
 	},
 	{

@@ -75,20 +75,15 @@ class CartManager {
 			const productsFromCart = cartById.products.find(
 				(product) => product.product === parseInt(productId)
 			);
-
-			if (!productsFromCart) {
-				cartById.products.push({ product: parseInt(productId), quantity: 1 });
-			} else {
-				productsFromCart.quantity++;
-			}
+			productsFromCart
+				? productsFromCart.quantity++
+				: cartById.products.push({ product: parseInt(productId), quantity: 1 });
 
 			const cartFound = allCarts.find((cart) => cart.id === cartById.id);
 
-			if (cartFound) {
-				cartFound.products = cartById.products;
-			} else {
-				allCarts.push(cartById);
-			}
+			cartFound
+				? (cartFound.products = cartById.products)
+				: allCarts.push(cartById);
 
 			await fs.promises.writeFile(this.path, JSON.stringify(allCarts), "utf-8");
 			return allCarts;
