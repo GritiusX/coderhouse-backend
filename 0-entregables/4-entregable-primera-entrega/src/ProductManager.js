@@ -12,7 +12,7 @@ class ProductManager {
 			this.products = JSON.parse(data);
 			return this.products;
 		} catch (error) {
-			console.error(`No se pudo obtener los productos: ${error.message}`);
+			throw new Error(`No se pudo obtener los productos: ${error.message}`);
 		}
 	}
 
@@ -34,7 +34,11 @@ class ProductManager {
 
 		Object.keys(newProduct).forEach((key) => {
 			if (key !== "thumbnails") {
-				if (newProduct[key].trim() === "" || newProduct[key] === 0) {
+				if (
+					newProduct[key] === "" ||
+					newProduct[key] === 0 ||
+					newProduct[key].length === 0
+				) {
 					console.error("Error, por favor agregue un producto completo");
 					return (validationResult = false);
 				}
@@ -43,23 +47,29 @@ class ProductManager {
 
 		// Object.values(newProduct).forEach((value) => {
 		// 	if (value.trim() === "" || value === 0) {
-		// 		console.error("Error, por favor agregue un producto completo");
+		// 		throw new Error("Error, por favor agregue un producto completo");
 		// 		return (validationResult = false);
 		// 	}
 		// });
 
 		if (this.products.some((product) => product.code === newProduct.code)) {
 			console.error("El código ya existe");
-			return false;
+			return (validationResult = false);
 		}
 
-		for (let key in productKeys) {
-			if (Object.keys(newProduct)[key] !== productKeys[key]) {
-				console.error(`El dato ${productKeys[key]} es requerido`);
-				return false;
+		// for (let key in productKeys) {
+		// 	if (Object.keys(newProduct)[key] !== productKeys[key]) {
+		// 		console.error(`El dato ${productKeys[key]} es requerido`);
+		// 		return (validationResult = false);
+		// 	}
+		// }
+		for (let key in newProduct) {
+			if (!productKeys.includes(key)) {
+				console.error(`El dato ${key} es requerido`);
+
+				return (validationResult = false);
 			}
 		}
-
 		return validationResult;
 	}
 
@@ -72,7 +82,7 @@ class ProductManager {
 			parseInt(productId) > this.products.length
 		) {
 			console.error("Producto no encontrado");
-			return false;
+			return (validationResult = false);
 		}
 		return validationResult;
 	}
@@ -97,7 +107,7 @@ class ProductManager {
 				return newProduct;
 			}
 		} catch (error) {
-			console.error(`No se pudo agregar el producto: ${error.message}`);
+			throw new Error(`No se pudo agregar el producto: ${error.message}`);
 		}
 	}
 
@@ -115,7 +125,9 @@ class ProductManager {
 				return filteredProduct;
 			}
 		} catch (error) {
-			console.error(`No se pudo obtener el producto por ID: ${error.message}`);
+			throw new Error(
+				`No se pudo obtener el producto por ID: ${error.message}`
+			);
 		}
 	}
 
@@ -140,7 +152,7 @@ class ProductManager {
 				return updatedArray;
 			}
 		} catch (error) {
-			return console.error(
+			throw new Error(
 				`No se pudo actualizar el producto por ID: ${error.message}`
 			);
 		}
@@ -166,7 +178,7 @@ class ProductManager {
 				return newArray;
 			}
 		} catch (error) {
-			return console.error(
+			throw new Error(
 				`No se pudo eliminar el producto por ID: ${error.message}`
 			);
 		}

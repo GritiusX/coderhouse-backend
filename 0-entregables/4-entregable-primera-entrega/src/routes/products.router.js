@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
 
 		return res.send(productsArray.slice(0, limit));
 	} catch (error) {
-		console.error(`APP: No se pudo obtener los productos: ${error.message}`);
+		res.status(404).send({ status: 404, error: error.message });
 	}
 });
 
@@ -33,9 +33,7 @@ router.get("/:pId", async (req, res) => {
 
 		return res.send({ message: "product obtained successfully", productById });
 	} catch (error) {
-		console.error(
-			`APP: No se pudo obtener el producto por Id: ${error.message}`
-		);
+		res.status(404).send({ status: 404, error: error.message });
 	}
 });
 
@@ -49,7 +47,7 @@ router.post("/", async (req, res) => {
 			message: "product added successfully",
 		});
 	} catch (error) {
-		console.error(`APP: error al agregar el producto`);
+		res.status(404).send({ status: 404, error: error.message });
 	}
 });
 
@@ -65,7 +63,7 @@ router.put("/:pId", async (req, res) => {
 			message: "product updated successfully",
 		});
 	} catch (error) {
-		console.error(`APP: error al modificar el producto`);
+		res.status(404).send({ status: 404, error: error.message });
 	}
 });
 router.delete("/:pId", async (req, res) => {
@@ -78,7 +76,7 @@ router.delete("/:pId", async (req, res) => {
 			message: "product deleted successfully",
 		});
 	} catch (error) {
-		console.error(`APP: error al eliminar el producto`);
+		res.status(404).send({ status: 404, error: error.message });
 	}
 });
 

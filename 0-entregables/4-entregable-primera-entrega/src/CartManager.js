@@ -10,22 +10,30 @@ class CartManager {
 		let validationResult = true;
 
 		if (!Array.isArray(newArray)) {
-			console.error("It is not an array");
+			throw new Error("It is not an array");
 			return (validationResult = false);
 		}
 		return validationResult;
 	}
 
-	async getCart(cartId) {
+	async getCarts() {
 		try {
 			const data = await fs.promises.readFile(this.path, "utf-8");
 			this.cart = JSON.parse(data);
 
-			if (parseInt(cartId) === -1) {
-				return this.cart;
-			}
-			if (parseInt(cartId) > this.cart.length) {
-				return console.error("No hay un cart con ese id");
+			return this.cart;
+		} catch (error) {
+			throw new Error(`No se pudo obtener todos los carts: ${error.message}`);
+		}
+	}
+
+	async getCartById(cartId) {
+		try {
+			const data = await fs.promises.readFile(this.path, "utf-8");
+			this.cart = JSON.parse(data);
+
+			if (parseInt(cartId) > this.cart.length || parseInt(cartId) <= 0) {
+				throw new Error("No hay un cart con ese id");
 			}
 
 			const filteredCart = this.cart.find(
@@ -34,43 +42,49 @@ class CartManager {
 
 			return filteredCart;
 		} catch (error) {
-			console.error(`No se pudo obtener el cart: ${error.message}`);
+			throw new Error(`No se pudo obtener el cart: ${error.message}`);
 		}
 	}
 
 	async addCart(newCartArray) {
 		try {
 			const validationResult = await this.validateCart(newCartArray);
-			const CartArray = await this.getCart(-1);
+			const CartArray = await this.getCarts();
+			console.log(validationResult);
 
-			if (validationResult) {
-				const arrayObject = { id: "", products: newCartArray };
-				arrayObject.id = CartArray.length === 0 ? 1 : CartArray.length + 1;
-
-				CartArray.push(arrayObject);
-
-				await fs.promises.writeFile(
-					this.path,
-					JSON.stringify(CartArray),
-					"utf-8"
-				);
-
-				return CartArray;
+			if (!validationResult) {
+				throw new Error(`Error al validar campos`);
 			}
+
+			const arrayObject = { id: "", products: newCartArray };
+			arrayObject.id = CartArray.length === 0 ? 1 : CartArray.length + 1;
+
+			CartArray.push(arrayObject);
+
+			await fs.promises.writeFile(
+				this.path,
+				JSON.stringify(CartArray),
+				"utf-8"
+			);
 
 			return CartArray;
 		} catch (error) {
-			console.error(`No se pudo agregar el cart: ${error.message}`);
+			throw new Error(`No se pudo agregar el cart: ${error.message}`);
 		}
 	}
 
 	async addProductCart(cartId, productId) {
 		try {
-			if (cartId <= 0) {
-				return console.error(`No existe un cart con ese Id`);
+			const allCarts = await this.getCarts();
+
+			if (cartId <= 0 || cartId >= allCarts.length) {
+				throw new Error(`No existe un cart con ese Id`);
 			}
-			const cartById = await this.getCart(cartId);
-			const allCarts = await this.getCart(-1);
+			if (productId <= 0) {
+				throw new Error(`No existe un producto con ese Id`);
+			}
+
+			const cartById = await this.getCartById(cartId);
 
 			const productsFromCart = cartById.products.find(
 				(product) => product.product === parseInt(productId)
@@ -86,9 +100,10 @@ class CartManager {
 				: allCarts.push(cartById);
 
 			await fs.promises.writeFile(this.path, JSON.stringify(allCarts), "utf-8");
+
 			return allCarts;
 		} catch (error) {
-			console.error(`No se pudo agregar el cart: ${error.message}`);
+			throw new Error(`No se pudo agregar el cart: ${error.message}`);
 		}
 	}
 }
