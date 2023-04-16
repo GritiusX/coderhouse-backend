@@ -1,0 +1,119 @@
+[
+	{
+		"title": "producto 1",
+		"description": "DESCRIPCION 1",
+		"price": 1234,
+		"thumbnail": "sin foto",
+		"code": "abc123",
+		"stock": 1,
+		"id": 1
+	},
+	{
+		"title": "producto 2",
+		"description": "DESCRIPCION 2",
+		"price": 4321,
+		"thumbnail": "sin foto",
+		"code": "123",
+		"stock": 14,
+		"id": 2
+	},
+	{
+		"title": "producto 3",
+		"description": "DESCRIPCION 3",
+		"price": 4321,
+		"thumbnail": "sin foto",
+		"code": "1234",
+		"stock": 14,
+		"id": 3
+	},
+	{
+		"title": "producto 4",
+		"description": "DESCRIPCION 4",
+		"price": 4341,
+		"thumbnail": "sin foto",
+		"code": "143",
+		"stock": 14,
+		"id": 4
+	},
+	{
+		"title": "producto 5",
+		"description": "DESCRIPCION 5",
+		"price": 4351,
+		"thumbnail": "sin foto",
+		"code": "153",
+		"stock": 14,
+		"id": 5
+	},
+	{
+		"title": "producto 6",
+		"description": "DESCRIPCION 6",
+		"price": 4361,
+		"thumbnail": "sin foto",
+		"code": "163",
+		"stock": 14,
+		"id": 6
+	},
+	{
+		"title": "producto 7",
+		"description": "DESCRIPCION 7",
+		"price": 4371,
+		"thumbnail": "sin foto",
+		"code": "173",
+		"stock": 14,
+		"id": 7
+	},
+	{
+		"title": "producto 8",
+		"description": "DESCRIPCION 8",
+		"price": 4381,
+		"thumbnail": "sin foto",
+		"code": "183",
+		"stock": 14,
+		"id": 8
+	},
+	{
+		"title": "producto 9",
+		"description": "DESCRIPCION 9",
+		"price": 4391,
+		"thumbnail": "sin foto",
+		"code": "193",
+		"stock": 14,
+		"id": 9
+	},
+	{
+		"title": "producto 10",
+		"description": "DESCRIPCION 10",
+		"price": 43101,
+		"thumbnail": "sin foto",
+		"code": "1103",
+		"stock": 14,
+		"id": 10
+	},
+	{
+		"title": "producto 11",
+		"description": "DESCRIPCION 11",
+		"price": 43111,
+		"thumbnail": "sin foto",
+		"code": "1113",
+		"stock": 14,
+		"id": 11
+	},
+	{
+		"title": "asd324",
+		"description": "asd",
+		"price": "123",
+		"thumbnail": "432",
+		"code": "345adsasd",
+		"stock": "dsfads",
+		"id": 12
+	},
+	{
+		"title": "asd",
+		"description": "asd",
+		"price": "213",
+		"thumbnail": "asd",
+		"code": "132",
+		"stock": "zxc",
+		"id": 13
+	}
+]
