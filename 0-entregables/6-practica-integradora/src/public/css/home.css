@@ -1,0 +1,21 @@
+.main-products-container {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	align-items: center;
+	justify-content: center;
+}
+
+.product-container {
+	background-color: rgb(128, 7, 7);
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	flex-wrap: wrap;
+	padding: 6px;
+	border-radius: 8px;
+	color: white;
+	min-width: 125px;
+	max-width: 300px;
+	min-height: 352px;
+}
