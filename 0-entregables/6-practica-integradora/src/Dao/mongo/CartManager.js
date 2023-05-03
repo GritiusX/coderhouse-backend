@@ -29,16 +29,26 @@ class CartManagerMongo {
 		}
 	}
 
-	async addProductInCart(cartId, productId, productBody) {
+	async addProductInCart(cartId, productId) {
 		try {
-			const cart = await cartModel.find(
-				{ _id: cartId },
-				{
-					products: 1,
-				}
+			const cart = await cartModel.findOne({
+				_id: cartId,
+			});
+			const productToUpdate = cart.products.find(
+				(prod) => prod.product === productId
 			);
 
-			return cart;
+			if (productToUpdate) {
+				return cartModel.updateOne(
+					{ _id: cartId, "products.product": productId }, //filtra POR CART Y POR PRODUCTO
+					{ $inc: { "products.$.quantity": 1 } }
+				);
+			} else {
+				return cartModel.updateOne(
+					{ _id: cartId },
+					{ $push: { products: { product: productId, quantity: 1 } } }
+				);
+			}
 		} catch (error) {
 			throw new Error(" CartManagerMongo.updateCart " + error.message);
 		}

@@ -41,9 +41,11 @@ router.post("/", async (req, res) => {
 router.put("/:cartId/product/:productId", async (req, res) => {
 	try {
 		const { cartId, productId } = req.params;
-		const body = req.body;
-		const getCart = await cartManager.addProductInCart(cartId, productId, body);
-		console.log(getCart);
+		const getCart = await cartManager.addProductInCart(
+			cartId,
+			parseInt(productId)
+		);
+
 		res.status(200).send({ status: 200, payload: getCart });
 	} catch (error) {
 		res.status(404).send({ status: 404, error: error.message });
