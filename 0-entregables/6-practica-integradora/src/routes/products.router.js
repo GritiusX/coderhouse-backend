@@ -1,19 +1,18 @@
 const { Router } = require("express");
-const ProductManager = require("../ProductManager");
+// const ProductManager = require("../Dao/fs/ProductManager"); // fs ProductManager
+const ProductManager = require("../Dao/mongo/ProductManager");
 
 const router = Router();
 const productManager = new ProductManager();
 
 router.get("/", async (req, res) => {
 	try {
-		const productsArray = await productManager.getProducts();
-		let limit = req.query.limit;
+		const allProducts = await productManager.getProducts();
 
-		if (!limit || limit > productsArray.length) {
-			res.send(productsArray);
-		}
-
-		return res.send(productsArray.slice(0, limit));
+		return res.send({
+			status: "success",
+			payload: allProducts,
+		});
 	} catch (error) {
 		res.status(404).send({ status: 404, error: error.message });
 	}
@@ -55,7 +54,20 @@ router.put("/:pId", async (req, res) => {
 	try {
 		const { pId } = req.params;
 		const body = req.body;
-		const productById = await productManager.updateProduct(pId, body);
+
+		const productToReplace = {
+			title: body.title,
+			description: body.description,
+			thumbnail: body.thumbnail,
+			price: body.price,
+			stock: body.stock,
+			code: body.code,
+		};
+
+		const productById = await productManager.updateProduct(
+			pId,
+			productToReplace
+		);
 
 		return res.status(200).send({
 			status: "success",
@@ -66,13 +78,15 @@ router.put("/:pId", async (req, res) => {
 		res.status(404).send({ status: 404, error: error.message });
 	}
 });
+
 router.delete("/:pId", async (req, res) => {
 	try {
 		const { pId } = req.params;
-		const productById = await productManager.deleteProduct(pId);
+		const deleteById = await productManager.deleteProduct(pId);
+
 		return res.status(200).send({
 			status: "success",
-			payload: { productById },
+			payload: { deleteById },
 			message: "product deleted successfully",
 		});
 	} catch (error) {
